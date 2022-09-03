@@ -6,7 +6,7 @@ import pages.RegistrationPage;
 import java.util.ArrayList;
 import java.util.List;
 
-public class StudentRegistrationTest {
+public class StudentRegistrationTest extends TestBase {
 
     //import
     private RegistrationPage registrationPage = new RegistrationPage();
