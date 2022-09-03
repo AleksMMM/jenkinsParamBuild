@@ -1,0 +1,62 @@
+plugins {
+    id 'java-library'
+    id "io.qameta.allure" version "2.9.6"
+}
+
+repositories {
+    mavenCentral()
+}
+
+def allureVersion = "2.17.2",
+    junitVersion = "5.8.2",
+    jacksonDatabind = "2.10.3",
+    commons = "2.4",
+    assertj = "3.19.0",
+    selenide = "6.2.1",
+    slf4jSimple = "1.7.29",
+    recursiveAssertionAssertj = "1.0.1"
+
+allure {
+    report {
+        version.set(allureVersion)
+    }
+    adapter {
+        autoconfigure.set(true)
+        aspectjWeaver.set(true)
+        frameworks {
+            junit5 {
+                adapterVersion.set(allureVersion)
+            }
+        }
+    }
+}
+
+dependencies {
+    implementation "com.github.vladislavsevruk:recursive-assertion-assertj:$recursiveAssertionAssertj"
+    testImplementation(
+            "com.codeborne:selenide:$selenide",
+            "org.assertj:assertj-core:$assertj",
+            "commons-io:commons-io:$commons",
+            "com.fasterxml.jackson.core:jackson-databind:$jacksonDatabind",
+            "io.qameta.allure:allure-selenide:$allureVersion",
+            "org.junit.jupiter:junit-jupiter-api:$junitVersion")
+    testRuntimeOnly(
+            "org.slf4j:slf4j-simple:$slf4jSimple",
+            "org.junit.jupiter:junit-jupiter-engine:$junitVersion")
+}
+
+
+tasks.withType(Test) {
+    systemProperties(System.getProperties())
+    useJUnitPlatform()
+
+    testLogging {
+        lifecycle {
+            events "started", "skipped", "failed", "standard_error", "standard_out"
+            exceptionFormat "short"
+        }
+    }
+
+    compileJava.options.encoding = 'UTF-8'
+    compileTestJava.options.encoding = 'UTF-8'
+}
