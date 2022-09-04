@@ -1,5 +1,6 @@
 package tests;
 
+import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
 import pages.RegistrationPage;
@@ -13,7 +14,7 @@ public class StudentRegistrationTest extends TestBase {
     //import
     private RegistrationPage registrationPage = new RegistrationPage();
 
-
+ClassLoader classLoader = RegistrationPage.class.getClassLoader();
 
 
     //configuration parameters
@@ -33,9 +34,11 @@ public class StudentRegistrationTest extends TestBase {
     List<String> hobbiesUser = new ArrayList<>(List.of("Reading", "Sports", "Music"));
     static String stateName = "NCR";
     static String cityName = "Delhi";
+     String path = classLoader.getResource("WhatsApp.jpeg").getPath();
 
 
     @Test
+    @Tag("web")
     void successTest() {
 
 
@@ -48,14 +51,13 @@ public class StudentRegistrationTest extends TestBase {
                 .setUserNumber(userNumber)
                 .setCurrentAddress(currentAddress)
                 .setHobbiesUser(hobbiesUser)
+                .uploadFile(path)
                 .setSubjectsFull(subjectsFullText)
                 .setSubjectsShort(subjectsShortText, subjectsShortTextSelect)
                 .selectState(stateName)
                 .selectCity(cityName)
                 .setBirthDate(calendarDay, calendarMonth, calendarYear)
                 .openResultDataForm(textModalWindow);
-
-
 
         //checking the results in the registration form
         registrationPage
@@ -71,5 +73,23 @@ public class StudentRegistrationTest extends TestBase {
                 .checkForm("State and City", stateName + " " + cityName)
                 .closeResultDataForm();
 
+    }
+
+    @Test
+    @Tag("web")
+    void demoWebTest() {
+        System.out.println("this demo web test");
+    }
+
+    @Test
+    @Tag("api")
+    void demoApiTest() {
+        System.out.println("this demo api test");
+    }
+
+    @Test
+    @Tag("api")
+    void demoApiTwoTest() {
+        System.out.println("this second api test");
     }
 }

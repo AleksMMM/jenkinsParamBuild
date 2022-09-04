@@ -4,6 +4,7 @@ import com.codeborne.selenide.SelenideElement;
 import io.qameta.allure.Step;
 import pages.components.Calendar;
 
+import java.io.File;
 import java.util.List;
 
 import static com.codeborne.selenide.Condition.text;
@@ -84,6 +85,12 @@ public class RegistrationPage {
     @Step("Выбираем хобби")
     public RegistrationPage setHobbiesUser(List<String> hobbiesUser) {
         hobbiesUser.forEach(user -> $x(String.format("//label[contains (text(), %s)]", user)).click());
+        return this;
+    }
+
+    @Step("Upload file")
+    public RegistrationPage uploadFile(String path) {
+        $("#uploadPicture").uploadFile(new File(path));
         return this;
     }
 

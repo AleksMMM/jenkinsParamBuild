@@ -14,7 +14,8 @@ def allureVersion = "2.17.2",
     assertj = "3.19.0",
     selenide = "6.2.1",
     slf4jSimple = "1.7.29",
-    recursiveAssertionAssertj = "1.0.1"
+    recursiveAssertionAssertj = "1.0.1",
+    ownerVersion = "1.0.12"
 
 allure {
     report {
@@ -39,7 +40,9 @@ dependencies {
             "commons-io:commons-io:$commons",
             "com.fasterxml.jackson.core:jackson-databind:$jacksonDatabind",
             "io.qameta.allure:allure-selenide:$allureVersion",
-            "org.junit.jupiter:junit-jupiter-api:$junitVersion")
+            "org.junit.jupiter:junit-jupiter-api:$junitVersion",
+            "org.aeonbits.owner:owner:$ownerVersion"
+    )
     testRuntimeOnly(
             "org.slf4j:slf4j-simple:$slf4jSimple",
             "org.junit.jupiter:junit-jupiter-engine:$junitVersion")
@@ -54,6 +57,18 @@ tasks.withType(Test) {
         lifecycle {
             events "started", "skipped", "failed", "standard_error", "standard_out"
             exceptionFormat "short"
+        }
+    }
+
+    task web(type: Test) {
+        useJUnitPlatform {
+            includeTags "web"
+        }
+    }
+
+    task api(type: Test) {
+        useJUnitPlatform {
+            includeTags "api"
         }
     }
 
