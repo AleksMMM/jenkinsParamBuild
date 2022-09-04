@@ -2,7 +2,7 @@ package tests;
 
 import com.codeborne.selenide.Configuration;
 import com.codeborne.selenide.logevents.SelenideLogger;
-import config.CredentialConfig;
+import config.WebConfig;
 import helpers.Attach;
 import io.qameta.allure.selenide.AllureSelenide;
 import org.aeonbits.owner.ConfigFactory;
@@ -27,9 +27,9 @@ public class TestBase {
         String browserVersion = System.getProperty("browser_version");
 
         if (remoteUrl != null){
-            CredentialConfig config = ConfigFactory.create(CredentialConfig.class);
-            String remoteLogin = config.login();
-            String remotePassword = config.password();
+            WebConfig config = ConfigFactory.create(WebConfig.class);
+            String remoteLogin = config.webRemoteDriverUser();
+            String remotePassword = config.webRemoteDriverPassword();
 
             Configuration.remote = String.format("https://%s:%s@%s/wd/hub", remoteLogin, remotePassword, remoteUrl);
             DesiredCapabilities capabilities = new DesiredCapabilities();
