@@ -34,7 +34,7 @@ ClassLoader classLoader = RegistrationPage.class.getClassLoader();
     List<String> hobbiesUser = new ArrayList<>(List.of("Reading", "Sports", "Music"));
     static String stateName = "NCR";
     static String cityName = "Delhi";
-     String path = classLoader.getResource("WhatsApp.jpeg").getPath();
+     String path = classLoader.getResource("img/WhatsApp.jpeg").getPath();
 
 
     @Test
