@@ -38,7 +38,7 @@ ClassLoader classLoader = RegistrationPage.class.getClassLoader();
 
 
     @Test
-    @Tag("web")
+    @Tag("fullTest")
     void successTest() {
 
 
@@ -76,19 +76,19 @@ ClassLoader classLoader = RegistrationPage.class.getClassLoader();
     }
 
     @Test
-    @Tag("web")
+    @Tag ("fullTest")
     void demoWebTest() {
         System.out.println("this demo web test");
     }
 
     @Test
-    @Tag("api")
+    @Tag("smokeTest")
     void demoApiTest() {
         System.out.println("this demo api test");
     }
 
     @Test
-    @Tag("api")
+    @Tag("smokeTest")
     void demoApiTwoTest() {
         System.out.println("this second api test");
     }

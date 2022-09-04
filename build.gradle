@@ -1,53 +1,41 @@
 plugins {
-    id 'java-library'
-    id "io.qameta.allure" version "2.9.6"
+    id 'java'
+    id 'io.qameta.allure' version '2.10.0'
 }
 
 repositories {
     mavenCentral()
 }
 
-def allureVersion = "2.17.2",
-    junitVersion = "5.8.2",
-    jacksonDatabind = "2.10.3",
-    commons = "2.4",
-    assertj = "3.19.0",
-    selenide = "6.2.1",
-    slf4jSimple = "1.7.29",
-    recursiveAssertionAssertj = "1.0.1",
+def allureVersion = "2.19.0",
+    slf4jVersion = "1.7.32",
+    javafakerVersion = "1.0.2",
     ownerVersion = "1.0.12"
 
 allure {
     report {
         version.set(allureVersion)
     }
-    adapter {
-        autoconfigure.set(true)
-        aspectjWeaver.set(true)
+    adapter { // отвечает за появление папочки build/allure-results
+        aspectjWeaver.set(true) //обработка аннотации @Step
         frameworks {
-            junit5 {
-                adapterVersion.set(allureVersion)
+            junit5 { //название фреймворка
+                adapterVersion.set(allureVersion) //версия интеграции фреймворка и Allure
             }
         }
     }
 }
 
 dependencies {
-    implementation "com.github.vladislavsevruk:recursive-assertion-assertj:$recursiveAssertionAssertj"
     testImplementation(
-            "com.codeborne:selenide:$selenide",
-            "org.assertj:assertj-core:$assertj",
-            "commons-io:commons-io:$commons",
-            "com.fasterxml.jackson.core:jackson-databind:$jacksonDatabind",
+            "com.codeborne:selenide:6.7.2",
             "io.qameta.allure:allure-selenide:$allureVersion",
-            "org.junit.jupiter:junit-jupiter-api:$junitVersion",
+            "org.junit.jupiter:junit-jupiter:5.9.0",
+            "com.github.javafaker:javafaker:$javafakerVersion",
+            "org.slf4j:slf4j-simple:$slf4jVersion",
             "org.aeonbits.owner:owner:$ownerVersion"
     )
-    testRuntimeOnly(
-            "org.slf4j:slf4j-simple:$slf4jSimple",
-            "org.junit.jupiter:junit-jupiter-engine:$junitVersion")
 }
-
 
 tasks.withType(Test) {
     systemProperties(System.getProperties())
@@ -59,18 +47,21 @@ tasks.withType(Test) {
             exceptionFormat "short"
         }
     }
+}
 
-    task web(type: Test) {
-        useJUnitPlatform {
-            includeTags "web"
-        }
+test {}
+
+task fulltest(type: Test) {
+    useJUnitPlatform {
+        includeTags "fullTest"
+    }
+}
+
+task smoketest(type: Test) {
+    useJUnitPlatform {
+        includeTags "smokeTest"
     }
 
-    task api(type: Test) {
-        useJUnitPlatform {
-            includeTags "api"
-        }
-    }
 
     compileJava.options.encoding = 'UTF-8'
     compileTestJava.options.encoding = 'UTF-8'
